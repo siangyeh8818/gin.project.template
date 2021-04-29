@@ -1,9 +1,14 @@
-package http
+package routers
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/siangyeh8818/gin.project.template/internal/middleware/jwt"
+	v1 "github.com/siangyeh8818/gin.project.template/internal/routers/api/v1"
+	"github.com/siangyeh8818/gin.project.template/pkg/export"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func InitRouter() *gin.Engine {
@@ -11,13 +16,19 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
-	r.StaticFS("/export", http.Dir(export.GetExcelFullPath()))
-	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
-	r.StaticFS("/qrcode", http.Dir(qrcode.GetQrCodeFullPath()))
+	/*
 
-	r.POST("/auth", api.GetAuth)
+		r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
+		r.StaticFS("/qrcode", http.Dir(qrcode.GetQrCodeFullPath()))
+
+		r.POST("/auth", api.GetAuth)
+
+		r.POST("/upload", api.UploadImage)
+	*/
+	r.StaticFS("/export", http.Dir(export.GetExcelFullPath()))
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	r.POST("/upload", api.UploadImage)
+
+	//r.NoRoute(NoRouteHandler)
 
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(jwt.JWT())

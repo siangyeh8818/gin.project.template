@@ -1,14 +1,8 @@
 package util
 
-import (
-	"crypto/md5"
-	"encoding/hex"
-)
+import "github.com/siangyeh8818/gin.project.template/pkg/setting"
 
-// EncodeMD5 md5 encryption
-func EncodeMD5(value string) string {
-	m := md5.New()
-	m.Write([]byte(value))
-
-	return hex.EncodeToString(m.Sum(nil))
+// Setup Initialize the util
+func Setup() {
+	jwtSecret = []byte(setting.AppSetting.JwtSecret)
 }

@@ -60,6 +60,14 @@ type Redis struct {
 
 var RedisSetting = &Redis{}
 
+type Etcd struct {
+	Endpoint string
+	User     string
+	Password string
+}
+
+var EtcdSetting = &Etcd{}
+
 var cfg *ini.File
 
 // Setup initialize the configuration instance
@@ -74,6 +82,7 @@ func Setup() {
 	mapTo("server", ServerSetting)
 	mapTo("database", DatabaseSetting)
 	mapTo("redis", RedisSetting)
+	mapTo("etcd", EtcdSetting)
 
 	AppSetting.ImageMaxSize = AppSetting.ImageMaxSize * 1024 * 1024
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
